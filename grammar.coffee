@@ -4,7 +4,7 @@ commaSep1 = (rule) ->
 commaSep = (rule) ->
   optional(commaSep1(rule))
 
-terminator = choice(";", "\n")
+terminator = choice(";", sym('_line_break'))
 
 PREC =
   COMMA: -1,
@@ -29,7 +29,7 @@ module.exports = grammar
 
   ubiquitous: -> [
     @comment,
-    "\n",
+    @_line_break,
     /[ \t\r]/
   ]
 
@@ -199,6 +199,7 @@ module.exports = grammar
       @type_op,
       @_paren_expression,
 
+      @this_expression,
       @identifier,
       @number,
       @string,
@@ -322,6 +323,8 @@ module.exports = grammar
         /\d+/,
         optional(seq(".", /\d*/)))))
 
+    this_expression: -> "this"
+
     identifier: -> /[\a_$][\a\d_$]*/
 
     true: -> "true"
@@ -343,3 +346,5 @@ module.exports = grammar
       choice(@identifier, @string, @number),
       ":",
       @_expression)
+
+    _line_break: -> '\n'
