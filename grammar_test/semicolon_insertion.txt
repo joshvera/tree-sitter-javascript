@@ -56,3 +56,16 @@ for (let item of items) { process(item); };
 	(statement_block
 	  (expression_statement
 		  (function_call (identifier) (arguments (identifier)))))))
+
+============================================
+While statements with trailing semicolons
+============================================
+
+while (a) { b(); };
+
+---
+
+(program
+  (while_statement (identifier)
+	  (statement_block
+		  (expression_statement (function_call (identifier))))))

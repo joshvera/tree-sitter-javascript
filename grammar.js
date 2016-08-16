@@ -148,7 +148,8 @@ module.exports = grammar({
     while_statement: $ => seq(
       'while',
       $._paren_expression,
-      $._statement
+      $._statement,
+      terminator()
     ),
 
     do_statement: $ => seq(
