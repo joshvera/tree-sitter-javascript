@@ -69,3 +69,29 @@ while (a) { b(); };
   (while_statement (identifier)
 	  (statement_block
 		  (expression_statement (function_call (identifier))))))
+
+============================================
+Try catch finally statements with trailing semicolons
+============================================
+
+try { a; } catch (b) { c; };
+try { d; } finally { e; };
+try { f; } catch { g; } finally { h; };
+
+---
+
+(program
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (catch (identifier)
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (finally
+      (statement_block (expression_statement (identifier)))))
+  (try_statement
+    (statement_block (expression_statement (identifier)))
+    (catch
+      (statement_block (expression_statement (identifier))))
+    (finally
+      (statement_block (expression_statement (identifier))))))

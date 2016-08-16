@@ -164,7 +164,8 @@ module.exports = grammar({
       'try',
       $.statement_block,
       optional($.catch),
-      optional($.finally)
+      optional($.finally),
+      terminator()
     ),
 
     break_statement: $ => seq(
