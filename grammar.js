@@ -141,7 +141,8 @@ module.exports = grammar({
       'of',
       $._expression,
       ')',
-      $._statement
+      $._statement,
+      terminator()
     ),
 
     while_statement: $ => seq(
