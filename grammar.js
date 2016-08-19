@@ -68,7 +68,8 @@ module.exports = grammar({
       $.break_statement,
       $.return_statement,
       $.yield_statement,
-      $.throw_statement
+      $.throw_statement,
+      $.empty_statement
     ),
 
     expression_statement: $ => seq(
@@ -207,6 +208,8 @@ module.exports = grammar({
       'throw',
       $._expression
     ),
+
+    empty_statement: $ => ';',
 
     //
     // Statement components
@@ -471,7 +474,13 @@ module.exports = grammar({
       )
     )),
 
-    identifier: $ => (/[\a_$][\a\d_$]*/),
+    identifier: $ => choice(
+      $._normal_identifier,
+      'get',
+      'set'
+    ),
+
+    _normal_identifier: $ => (/[\a_$][\a\d_$]*/),
 
     this_expression: $ => 'this',
     super: $ => 'super',
@@ -489,6 +498,7 @@ module.exports = grammar({
     class_body: $ => seq(
       '{',
       repeat(seq(
+        optional('static'),
         $.method_definition,
         optional(';')
       )),
@@ -498,7 +508,7 @@ module.exports = grammar({
     formal_parameters: $ => commaSep1($.identifier),
 
     method_definition: $ => seq(
-      optional('static'),
+      optional(choice('get', 'set', '*')),
       $.identifier,
       '(',
       optional($.formal_parameters),

@@ -126,6 +126,10 @@
         {
           "type": "SYMBOL",
           "name": "throw_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_statement"
         }
       ]
     },
@@ -902,6 +906,10 @@
           "name": "_expression"
         }
       ]
+    },
+    "empty_statement": {
+      "type": "STRING",
+      "value": ";"
     },
     "case": {
       "type": "SEQ",
@@ -2691,6 +2699,23 @@
       }
     },
     "identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_normal_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
+        }
+      ]
+    },
+    "_normal_identifier": {
       "type": "PATTERN",
       "value": "[\\a_$][\\a\\d_$]*"
     },
@@ -2762,6 +2787,18 @@
             "type": "SEQ",
             "members": [
               {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "static"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
                 "type": "SYMBOL",
                 "name": "method_definition"
               },
@@ -2818,8 +2855,21 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "static"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "get"
+                },
+                {
+                  "type": "STRING",
+                  "value": "set"
+                },
+                {
+                  "type": "STRING",
+                  "value": "*"
+                }
+              ]
             },
             {
               "type": "BLANK"
